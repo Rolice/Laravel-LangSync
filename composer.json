@@ -1,0 +1,24 @@
+{
+  "name": "rolice/lang-sync",
+  "description": "Parse templates, extracts laguages and sync them through different translations.",
+  "authors": [
+    {
+      "name": "Lyubomir Gardev",
+      "email": "rolice@intellisys.org"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "illuminate/support": "4.2.*"
+  },
+  "autoload": {
+    "classmap": [
+      "src/commands",
+      "src/services"
+    ],
+    "psr-0": {
+      "Rolice\\LangSync\\": "src/"
+    }
+  },
+  "minimum-stability": "stable"
+}
