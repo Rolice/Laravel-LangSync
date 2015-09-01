@@ -10,11 +10,15 @@ You can easily install the package in your Laravel project by simply executing t
 
 After the installation you have to add the service provider in app config:
 
-`'Rolice\LangSync\LangSyncServiceProvider'`
+```php
+'Rolice\LangSync\LangSyncServiceProvider'
+```
 
 for PHP 5.6+ you can add the following:
 
-`Rolice\LangSync\LangSyncServiceProvider::class`
+```php
+Rolice\LangSync\LangSyncServiceProvider::class
+```
 
 ## Usage
 The usage is done through artisan command. This is done through command line like:
@@ -23,4 +27,6 @@ The usage is done through artisan command. This is done through command line lik
 
 You can easily call it programmatically from your PHP code like, in case command line is not accessible:
 
-`Artisan::call('lang:extract')`
+```php
+Artisan::call('lang:extract')
+```
