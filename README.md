@@ -33,5 +33,5 @@ The usage is done through artisan command. This is done through command line lik
 You can easily call it programmatically from your PHP code like, in case command line is not accessible:
 
 ```php
-Artisan::call('lang:extract')
+Artisan::call('locale:extract')
 ```
