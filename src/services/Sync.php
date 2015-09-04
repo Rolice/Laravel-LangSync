@@ -45,7 +45,7 @@ class Sync
         $filename = $this->file($language, $file);
 
         $output = null;
-        $this->render($data, $output, 0, 'article' === $file);
+        $this->render($data, $output, 0);
 
         File::put($filename, $output);
     }
@@ -74,7 +74,7 @@ class Sync
      * @param string $result The resulting buffer holding new lang file contents (php code)
      * @param int    $level  Current recursion level
      */
-    private function render(array $data, &$result = null, $level = 0, $debug = false)
+    private function render(array $data, &$result = null, $level = 0)
     {
         $level = (int)$level;
 

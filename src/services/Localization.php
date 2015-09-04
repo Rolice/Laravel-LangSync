@@ -37,7 +37,7 @@ class Localization
     public function merge(array $labels)
     {
         $new = $this->extract($labels);
-        $existing = $this->removeUnused($new, $this->file === 'landing');
+        $existing = $this->removeUnused($new);
 
         /**
          * Merge existing and new
@@ -57,6 +57,7 @@ class Localization
      * Remove duplicates, remove empty, flip keys and values, reset values
      *
      * @param $data
+     * @deprecated This method is deprecated in favour of extract method and nested labels support
      * @return array
      */
     protected function prepareData($data)
@@ -79,9 +80,9 @@ class Localization
      * @param $new array
      * @return array
      */
-    protected function removeUnused($new, $debug = false)
+    protected function removeUnused($new)
     {
-        $existing = $this->data($debug);
+        $existing = $this->data();
 
         foreach ($existing as $label => $value) {
             if (!array_key_exists($label, $new)) {
@@ -97,7 +98,7 @@ class Localization
      *
      * @return array|mixed
      */
-    protected function data($debug = true)
+    protected function data()
     {
         $file = $this->file();
         $data = File::exists($file) ? include $file : [];
