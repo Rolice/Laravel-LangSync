@@ -8,6 +8,8 @@ use File;
  */
 class Localization
 {
+    const Separator = '.';
+
     /**
      * @var
      */
@@ -32,10 +34,10 @@ class Localization
      * @param array $new
      * @return array
      */
-    public function merge(array $new)
+    public function merge(array $labels)
     {
-        $new = $this->prepareData($new);
-        $existing = $this->removeNotUsed($this->data(), $new);
+        $new = $this->extract($labels);
+        $existing = $this->removeUnused($new, $this->file === 'landing');
 
         /**
          * Merge existing and new
@@ -64,7 +66,7 @@ class Localization
         $data = array_flip($data);
 
         foreach ($data as $key => $value) {
-            $data[$key] = $this->file.'.'.$key;
+            $data[$key] = $this->file . '.' . $key;
         }
 
         return $data;
@@ -74,14 +76,15 @@ class Localization
      * Remove not used labels from $existing
      * $new has all currently used labels
      *
-     * @param $existing array
      * @param $new array
      * @return array
      */
-    protected function removeNotUsed($existing, $new)
+    protected function removeUnused($new, $debug = false)
     {
+        $existing = $this->data($debug);
+
         foreach ($existing as $label => $value) {
-            if (! array_key_exists($label, $new)) {
+            if (!array_key_exists($label, $new)) {
                 unset($existing[$label]);
             }
         }
@@ -94,7 +97,7 @@ class Localization
      *
      * @return array|mixed
      */
-    protected function data()
+    protected function data($debug = true)
     {
         $file = $this->file();
         $data = File::exists($file) ? include $file : [];
@@ -110,5 +113,30 @@ class Localization
     protected function file()
     {
         return app_path('lang/' . $this->language . '/' . $this->file . '.php');
+    }
+
+    protected function extract(array $labels)
+    {
+        $build = function (&$data, &$path = [], $level = 0) use (&$build) {
+            foreach ($data as $key => &$value) {
+                $path[] = $key;
+
+                if (is_array($value)) {
+                    $build($value, $path, $level + 1);
+                    array_pop($path);
+                    continue;
+                }
+
+                $value = $this->file . self::Separator . implode(self::Separator, $path);
+
+                while($level < count($path)) {
+                    array_pop($path);
+                }
+            }
+        };
+
+        $build($labels);
+
+        return $labels;
     }
 }

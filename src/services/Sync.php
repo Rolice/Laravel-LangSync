@@ -19,6 +19,7 @@ class Sync
      */
     public function execute(LabelsCollection $collection)
     {
+
         foreach (Config::get('app.available_locales') as $language) {
             foreach ($collection->get() as $file => $labels) {
                 if ($file == 'manual') {
@@ -26,7 +27,7 @@ class Sync
                 }
 
                 $loc = new Localization($language, $file);
-                $data = $loc->merge(array_keys($labels));
+                $data = $loc->merge($labels);
                 $this->save($language, $file, $data);
             }
         }
@@ -44,7 +45,7 @@ class Sync
         $filename = $this->file($language, $file);
 
         $output = null;
-        $this->render($data, $output);
+        $this->render($data, $output, 0, 'article' === $file);
 
         File::put($filename, $output);
     }
@@ -73,7 +74,7 @@ class Sync
      * @param string $result The resulting buffer holding new lang file contents (php code)
      * @param int    $level  Current recursion level
      */
-    private function render(array $data, &$result = null, $level = 0)
+    private function render(array $data, &$result = null, $level = 0, $debug = false)
     {
         $level = (int)$level;
 
