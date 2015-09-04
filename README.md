@@ -28,7 +28,7 @@ Rolice\LangSync\LangSyncServiceProvider::class
 ## Usage
 The usage is done through artisan command. This is done through command line like:
 
-`php artisan lang:extract`
+`php artisan locale:extract`
 
 You can easily call it programmatically from your PHP code like, in case command line is not accessible:
 
