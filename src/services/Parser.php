@@ -37,7 +37,7 @@ class Parser
              * Lang::get('common.' . $_ENV['client_currency'] . '-sign')
              * Lang::get("common.{$currency}-sign")
              */
-            preg_match_all('#(?:\@lang|Lang::get)\((?<quot>\'|")(?<match>.*?)\k{quot}.*?\)#ui',
+            preg_match_all('#(?:\@lang|@choice|Lang::get)\((?<quot>\'|")(?<match>.*?)\k{quot}.*?\)#ui',
                 $file->getContents(), $buffer);
 
             if (1 >= count($buffer)) {
