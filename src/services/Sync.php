@@ -19,7 +19,6 @@ class Sync
      */
     public function execute(LabelsCollection $collection)
     {
-
         foreach (Config::get('app.available_locales') as $language) {
             foreach ($collection->get() as $file => $labels) {
                 if ($file == 'manual') {
@@ -70,9 +69,9 @@ class Sync
     }
 
     /**
-     * @param array  $data   Nested data about translations
+     * @param array $data Nested data about translations
      * @param string $result The resulting buffer holding new lang file contents (php code)
-     * @param int    $level  Current recursion level
+     * @param int $level Current recursion level
      */
     private function render(array $data, &$result = null, $level = 0)
     {
@@ -83,6 +82,10 @@ class Sync
         }
 
         foreach ($data as $key => $label) {
+            if ('manual' === $key && 0 === $level) {
+                continue;
+            }
+
             if (!is_scalar($label)) {
                 $key = str_replace('\'', '\\\'', $key);
 

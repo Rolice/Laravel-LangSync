@@ -4,6 +4,7 @@ use Symfony\Component\Finder\Finder;
 
 /**
  * Class Parser
+ *
  * @package Rolice\LangSync
  */
 class Parser
@@ -32,11 +33,6 @@ class Parser
     public function extract()
     {
         foreach ($this->getFiles() as $file) {
-            /**
-             * @TODO: make it work for such lines:
-             * Lang::get('common.' . $_ENV['client_currency'] . '-sign')
-             * Lang::get("common.{$currency}-sign")
-             */
             preg_match_all(
                 '#(?:trans|trans_choice|\@lang|\@choice|Lang::get|Lang::choice)[\s\t\r\n]*\([\s\t\r\n]*(?<quot>\'|")(?<match>.*?)\k{quot}.*?\)#smui',
                 $file->getContents(),

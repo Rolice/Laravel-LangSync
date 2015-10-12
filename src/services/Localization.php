@@ -43,7 +43,7 @@ class Localization
          * Merge existing and new
          * Keep existing translations and append new
          */
-        $data = array_merge($new, $existing);
+        $data = array_replace_recursive($new, $existing);
 
         /**
          * Sort alphabetically (keep keys)
@@ -72,7 +72,6 @@ class Localization
 
         return $data;
     }
-
     /**
      * Remove not used labels from $existing
      * $new has all currently used labels
@@ -86,6 +85,11 @@ class Localization
 
         foreach ($existing as $label => $value) {
             if (!array_key_exists($label, $new)) {
+                // Do not clean up manual translations (such with dynamic keys)
+                if (0 === strpos('manual.', $label)) {
+                    continue;
+                }
+
                 unset($existing[$label]);
             }
         }
@@ -130,7 +134,7 @@ class Localization
 
                 $value = $this->file . self::Separator . implode(self::Separator, $path);
 
-                while($level < count($path)) {
+                while ($level < count($path)) {
                     array_pop($path);
                 }
             }
